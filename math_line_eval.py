@@ -9,6 +9,7 @@
 
 import re
 import sys
+from brackets_are_valid import brackets_are_valid
 
 # debug -----------------------------------------------------------------------
 """ print(f"Arg count: {len(sys.argv)}")
@@ -21,33 +22,6 @@ if len(sys.argv) == 1:
     expr = input("Enter the expression: ")
 else:
     expr = sys.argv[1]
-
-
-def brackets_are_valid(expr: str) -> bool:
-    ret = False
-    stack = []
-    last_open_bracket_pos = 0
-
-    for i, c in enumerate(expr):
-        if c == '(':
-            #print(f"push ( at {i}")
-            stack.append(i)
-            continue
-        if c == ')':
-            #print(f"pop ) at {i}")
-            try:
-                last_open_bracket_pos = stack.pop()
-            except IndexError:
-                print(f"Closing bracket at {i} has no opening.")
-                return False
-        
-    #print(stack)
-
-    if len(stack) == 0:
-        return True
-    else:
-        print(f"Open bracket at {last_open_bracket_pos} has no closing.")
-        return False
 
 
 def pair_brackets(expr: str) -> list:
