@@ -16,13 +16,14 @@ def brackets_are_valid(expr: str) -> bool:
         if c == '(':
             stack.append(i)
         elif c == ')':
-            try:
-                last_open_bracket_pos = stack.pop()
-            except IndexError:
+            if len(stack) == 0:
                 print(f"Closing bracket at {i} has no opening.")
                 print(expr)
                 print(" "*i + "^ here.")
                 return False
+            else:
+                last_open_bracket_pos = stack.pop()
+                
 
     if len(stack) == 0:
         return True
