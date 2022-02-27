@@ -1,3 +1,12 @@
+# brackets_are_valid.py
+# Cole Frauzel
+# 2022-02-27
+
+# Takes in an expression as a string and checks if the brackets are
+#   balanced. Returns True if no issues found; returns False if
+#   unbalanced brackets are detected and prints where it found
+#   a mismatch. (Though it might not be the only mismatch!)
+
 def brackets_are_valid(expr: str) -> bool:
     ret = False
     stack = []
@@ -22,3 +31,4 @@ def brackets_are_valid(expr: str) -> bool:
         print(expr)
         print(" "*last_open_bracket_pos + "^ here.")
         return False
+
