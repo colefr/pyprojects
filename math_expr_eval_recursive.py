@@ -67,7 +67,7 @@ def split_terms(expr: str) -> list:
     i = 0
 
     while i < len(expr):
-        if expr[i] == '+' or expr[i] == '-':
+        if expr[i] in "+-":
             if i == 0:  # don't cut off a - at the very front of the expression
                 i = i + 1
             else:
@@ -88,14 +88,18 @@ def split_terms(expr: str) -> list:
     terms = list(filter(None, terms)) # the above code produces empty elements?
                                         # there's gotta be a better fix
                                         # but for now.......
-
     return terms
 
 
+def recurse_split_terms(expr: str) -> bool:
+    for i in list(split_terms(expr)):
+        print(i)
+        #recurse_split_terms(str(i))
+
+    return True
 
 if not brackets_are_valid(expr):
     exit()
 else:
-    for i in split_terms(expr):
-        print(i)
-        
+    recurse_split_terms(expr)
+
