@@ -6,7 +6,7 @@
 #   order of operations.
 
 import sys
-from brackets_are_valid import brackets_are_valid
+from bracket_utils import *
 
 
 if len(sys.argv) == 1:
@@ -21,23 +21,6 @@ else:
 # 3. Evaluate exponents
 # 4. Evaluate multiplications/divisions, left-to-right
 # 5. Evaluate all evaluated terms, adding/subtracting left-to-right
-
-
-def find_closing_bracket(expr: str, at: int) -> int:
-    ret = 0
-    stack = []
-
-    for i, c in enumerate(expr[at:]):
-        if c == '(':
-            stack.append(i)
-            continue
-        if c == ')':
-            x = stack.pop() # popped value is just discarded
-            if len(stack) == 0:
-                ret = i + at
-                break
-
-    return ret
 
 
 def split_terms(expr: str) -> list:
@@ -68,17 +51,4 @@ def split_terms(expr: str) -> list:
                                         # there's gotta be a better fix
                                         # but for now.......
     return terms
-
-
-def recurse_split_terms(expr: str) -> bool:
-    for i in list(split_terms(expr)):
-        print(i)
-        #recurse_split_terms(str(i))
-
-    return True
-
-if not brackets_are_valid(expr):
-    exit()
-else:
-    recurse_split_terms(expr)
 

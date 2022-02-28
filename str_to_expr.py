@@ -5,14 +5,16 @@
 # Solve a simple (addition/subtraction) expression from a string
 
 import sys
+from unittest import result
 
 if len(sys.argv) == 1:
     expr = input("Enter the expression: ")
 else:
     expr = sys.argv[1]
 
+expr = expr.replace(' ', '')   #remove spaces
 
-def split_terms(expr: str) -> list:
+def split_into_terms(expr: str) -> list:
     terms = []
     last_split = 0
 
@@ -28,22 +30,40 @@ def split_terms(expr: str) -> list:
     return terms
 
 
-def terms_to_numbers(terms: list) -> list:
-    values = []
+def multiply_divide_within_term(term: str) -> int:
+    factors = []
+    last_split = 0
 
-    for i in terms:
-        if i[0] not in "+-":    # no leading sign (only case should be first term +)
-            values.append(int(i))
-        elif i[0] == "-":       # negative term
-            values.append(int(i[1:]) * -1)
-        else:                   # only case should be positive terms (not first)
-            values.append(int(i[1:]))
+    for i, c in enumerate(term):
+        if c in "*/":
+            factors.append(term[last_split:i])
+            last_split = i
+    factors.append(term[last_split:])
 
-    return values
+    ret = 0
+    for i in factors:
+        if i[0] not in "*/":    # first case, no leading operator
+            ret = int(i)
+        elif i[0] == '*':
+            ret = ret * int(i[1:])
+        elif i[0] == '/':
+            ret = ret / int(i[1:])
+
+    return ret
+
+
 
 
 print(expr)
-print(split_terms(expr))
-print(terms_to_numbers(split_terms(expr)))
-print(sum(terms_to_numbers(split_terms(expr))))
+terms = split_into_terms(expr)
+print(terms)
+
+evaluated_terms = []
+for i in terms:
+    evaluated_terms.append(multiply_divide_within_term(i))
+print(evaluated_terms)
+
+final_eval = sum(evaluated_terms)
+print(final_eval)
+
 

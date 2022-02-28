@@ -9,7 +9,7 @@
 
 import re
 import sys
-from brackets_are_valid import brackets_are_valid
+from bracket_utils import brackets_are_valid
 
 # debug -----------------------------------------------------------------------
 """ print(f"Arg count: {len(sys.argv)}")
