@@ -2,10 +2,9 @@
 # Cole Frauzel
 # 2022-02-27
 
-# Solve a simple (addition/subtraction) expression from a string
+# Solve a simple 4-function expression from a string (no brackets)
 
 import sys
-from unittest import result
 
 if len(sys.argv) == 1:
     expr = input("Enter the expression: ")

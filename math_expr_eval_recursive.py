@@ -7,13 +7,14 @@
 
 import sys
 from bracket_utils import *
-
+import re
 
 if len(sys.argv) == 1:
     expr = input("Enter the expression: ")
 else:
     expr = sys.argv[1]
-
+expr = expr.replace(' ', '')   #remove spaces
+expr = replace_square_curly_brackets(expr)
 
 # 1. Split into terms at + or -
 # 2. Evaluate expression in brackets
@@ -23,7 +24,7 @@ else:
 # 5. Evaluate all evaluated terms, adding/subtracting left-to-right
 
 
-def split_terms(expr: str) -> list:
+def split_into_terms(expr: str) -> list:
     terms = []
     last_split = 0
     i = 0
@@ -52,3 +53,58 @@ def split_terms(expr: str) -> list:
                                         # but for now.......
     return terms
 
+
+def multiply_divide_within_term(term: str) -> int:
+    factors = []
+    last_split = 0
+
+    for i, c in enumerate(term):
+        if c in "*/":
+            factors.append(term[last_split:i])
+            last_split = i
+    factors.append(term[last_split:])
+
+    ret = 0
+    for i in factors:
+        if i[0] not in "*/":    # first case, no leading operator
+            ret = int(i)
+        elif i[0] == '*':
+            ret = ret * int(i[1:])
+        elif i[0] == '/':
+            ret = ret / int(i[1:])
+
+    return ret
+
+
+def evaluate(expr: str) -> int:
+    terms = split_into_terms(expr)
+    evaluated_terms = []
+    for term in terms:
+        
+        term = insert_multiplication_sign(term)
+        print(term)
+        
+        if '(' in term or ')' in term:
+            i = 0
+
+            while i < len(term):
+                if term[i] == '(':
+                    closing = find_closing_bracket(term, i)
+                    #print(term[i+1:closing])
+                    evaluate(term[i+1:closing])
+                    i = closing
+                    continue
+                else:
+                    i = i + 1
+
+        else:
+            evaluated_terms.append(multiply_divide_within_term(term))
+
+    print(evaluated_terms)
+    print(sum(evaluated_terms))
+    return sum(evaluated_terms)
+
+if not brackets_are_valid(expr):
+    exit()
+else:
+    print(evaluate(expr))

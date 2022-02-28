@@ -55,6 +55,7 @@ def find_closing_bracket(expr: str, at: int) -> int:
 
     return ret
 
+
 # Strips away the outermost brackets of an expression. Note that it will
 #   do this regardless of what's before or after said brackets.
 def strip_outer_brackets(expr: str) -> str:
@@ -65,6 +66,7 @@ def strip_outer_brackets(expr: str) -> str:
     
     return expr[:i] + expr[i+1:closing] + expr[closing+1:]
 
+
 # Replaces any square or curly brackets with round brackets for easier parsing.
 def replace_square_curly_brackets(expr: str) -> str:
     return expr.replace('{','(').replace('}',')').replace('[','(').replace(']',')')
@@ -74,7 +76,7 @@ def replace_square_curly_brackets(expr: str) -> str:
 #   i.e., 2(3+5) -> 2*(3+5)
 def insert_multiplication_sign(expr: str) -> str:
     for i, c in enumerate(expr):
-        if (c == '(') and (i > 0) and (expr[i-1].isalnum()):
+        if (c == '(') and (i > 0) and ((expr[i-1].isdigit()) or (expr[i-1] == ')')):
             expr = expr[:i] + '*' + expr[i:]
 
     return expr
