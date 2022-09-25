@@ -38,7 +38,9 @@ def brackets_are_valid(expr: str) -> bool:
 
 # Replaces any square or curly brackets with round brackets for easier parsing.
 def replace_square_curly_brackets(expr: str) -> str:
-    return expr.replace('{','(').replace('}',')').replace('[','(').replace(']',')')
+    return expr.replace('{','(').replace('}',')').\
+        replace('[','(').replace(']',')')
+         
 
 
 # Splits a string by delimiters
@@ -51,6 +53,7 @@ def split_into_terms(expr: str, delimits: list) -> list:
     for i in delimits:
         pattern = pattern + '\\' + i
     pattern = pattern + "])"
+    # pattern will look like ([()\*\*\*...]) where * is each delimiter
     return list(filter(None, (re.split(pattern, expr) )))
 
 
